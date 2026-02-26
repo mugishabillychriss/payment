@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Companies | EnterprisePro Financial Suite</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+    <!-- Sidebar Navigation (SAME AS INDEX) -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <i class="fas fa-chart-line logo-icon"></i>
+            <span class="logo-text">EnterprisePro</span>
+            <span class="badge">School Project</span>
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="companies.html" class="nav-item active">
+                <i class="fas fa-building"></i>
+                <span>Companies</span>
+            </a>
+            <a href="transactions.html" class="nav-item">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Transactions</span>
+            </a>
+            <a href="invoices.html" class="nav-item">
+                <i class="fas fa-file-invoice"></i>
+                <span>Invoices</span>
+            </a>
+            <a href="reports.html" class="nav-item">
+                <i class="fas fa-chart-pie"></i>
+                <span>Reports</span>
+            </a>
+            <a href="settings.html" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="demo-indicator">
+                <i class="fas fa-flask"></i>
+                <span>Demo Mode</span>
+            </div>
+            <div class="current-date" id="currentDate"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <h1>Companies</h1>
+                <p>Manage your business entities and track performance</p>
+            </div>
+            <div class="header-right">
+                <div class="notification-badge">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge-count">3</span>
+                </div>
+                <div class="user-profile">
+                    <img src="https://ui-avatars.com/api/?name=School+Project&background=4361ee&color=fff" alt="User">
+                    <div class="user-info">
+                        <span class="user-name">Demo User</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Header with Actions -->
+        <div class="page-header">
+            <div class="page-title">
+                <h1>Company Overview</h1>
+                <p>3 active companies • Total value: $892,450</p>
+            </div>
+            <div class="page-actions">
+                <button class="btn-primary" onclick="showAddCompanyModal()">
+                    <i class="fas fa-plus"></i> Add Company
+                </button>
+                <button class="btn-secondary" onclick="exportCompanies()">
+                    <i class="fas fa-download"></i> Export
+                </button>
+            </div>
+        </div>
+
+        <!-- Company Stats -->
+        <div class="stats-row">
+            <div class="mini-stat">
+                <div class="mini-stat-icon blue">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="mini-stat-details">
+                    <span class="mini-stat-label">Total Companies</span>
+                    <span class="mini-stat-value" id="totalCompanies">3</span>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <div class="mini-stat-icon green">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="mini-stat-details">
+                    <span class="mini-stat-label">Total Revenue</span>
+                    <span class="mini-stat-value" id="totalRevenue">$292,790</span>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <div class="mini-stat-icon orange">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="mini-stat-details">
+                    <span class="mini-stat-label">Total Employees</span>
+                    <span class="mini-stat-value" id="totalEmployees">35</span>
+                </div>
+            </div>
+            <div class="mini-stat">
+                <div class="mini-stat-icon red">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="mini-stat-details">
+                    <span class="mini-stat-label">Avg. Profit Margin</span>
+                    <span class="mini-stat-value" id="avgMargin">42.3%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Companies Grid -->
+        <div class="cards-grid" id="companiesGrid">
+            <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Company Details Modal -->
+        <div class="modal" id="companyModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Company Details</h2>
+                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body" id="companyModalBody">
+                    <!-- Populated by JavaScript -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" onclick="closeModal()">Close</button>
+                    <button class="btn-primary" onclick="editCompany()">Edit Company</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Company Modal -->
+        <div class="modal" id="addCompanyModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Add New Company</h2>
+                    <button class="modal-close" onclick="closeAddModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="addCompanyForm">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" id="companyName" placeholder="Enter company name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Industry</label>
+                            <select id="companyIndustry">
+                                <option>Technology</option>
+                                <option>Food & Beverage</option>
+                                <option>Education</option>
+                                <option>Retail</option>
+                                <option>Healthcare</option>
+                                <option>Finance</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Founded Date</label>
+                                <input type="date" id="companyFounded">
+                            </div>
+                            <div class="form-group">
+                                <label>Employees</label>
+                                <input type="number" id="companyEmployees" placeholder="Number of employees">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Initial Revenue</label>
+                            <input type="number" id="companyRevenue" placeholder="0.00" step="0.01">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" onclick="closeAddModal()">Cancel</button>
+                    <button class="btn-primary" onclick="addCompany()">Create Company</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="data.js"></script>
+    <script src="calculations.js"></script>
+    <script src="main.js"></script>
+    <script src="companies.js"></script>
+</body>
+</html>

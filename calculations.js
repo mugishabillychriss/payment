@@ -113,4 +113,13 @@ class FinancialCalculator {
                 revenue,
                 expenses,
                 profit: revenue - expenses,
-                margin: revenue > 
+                margin: revenue > 0 ? ((revenue - expenses) / revenue * 100).toFixed(2) : 0
+            });
+        });
+        
+        return metrics;
+    }
+}
+
+// Create instance
+const calculator = new FinancialCalculator(transactions, companies);

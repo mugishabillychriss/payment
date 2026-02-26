@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | EnterprisePro Financial Suite</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+    <!-- Sidebar Navigation (SAME AS INDEX) -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <i class="fas fa-chart-line logo-icon"></i>
+            <span class="logo-text">EnterprisePro</span>
+            <span class="badge">School Project</span>
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="companies.html" class="nav-item">
+                <i class="fas fa-building"></i>
+                <span>Companies</span>
+            </a>
+            <a href="transactions.html" class="nav-item">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Transactions</span>
+            </a>
+            <a href="invoices.html" class="nav-item">
+                <i class="fas fa-file-invoice"></i>
+                <span>Invoices</span>
+            </a>
+            <a href="reports.html" class="nav-item">
+                <i class="fas fa-chart-pie"></i>
+                <span>Reports</span>
+            </a>
+            <a href="settings.html" class="nav-item active">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="demo-indicator">
+                <i class="fas fa-flask"></i>
+                <span>Demo Mode</span>
+            </div>
+            <div class="current-date" id="currentDate"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <h1>Settings</h1>
+                <p>Configure your financial system preferences</p>
+            </div>
+            <div class="header-right">
+                <div class="notification-badge">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge-count">3</span>
+                </div>
+                <div class="user-profile">
+                    <img src="https://ui-avatars.com/api/?name=School+Project&background=4361ee&color=fff" alt="User">
+                    <div class="user-info">
+                        <span class="user-name">Demo User</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Settings Grid -->
+        <div class="cards-grid">
+            <!-- General Settings -->
+            <div class="info-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-sliders-h"></i> General Settings</h3>
+                </div>
+                <div class="form-group">
+                    <label>Company Name</label>
+                    <input type="text" value="EnterprisePro Financial" id="companyName">
+                </div>
+                <div class="form-group">
+                    <label>Business Type</label>
+                    <select id="businessType">
+                        <option>Sole Proprietorship</option>
+                        <option>Partnership</option>
+                        <option>LLC</option>
+                        <option>Corporation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Fiscal Year Start</label>
+                    <input type="month" value="2024-01" id="fiscalYear">
+                </div>
+            </div>
+
+            <!-- Currency Settings -->
+            <div class="info-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-coins"></i> Currency Settings</h3>
+                </div>
+                <div class="form-group">
+                    <label>Base Currency</label>
+                    <select id="baseCurrency">
+                        <option value="USD">USD - US Dollar</option>
+                        <option value="EUR">EUR - Euro</option>
+                        <option value="GBP">GBP - British Pound</option>
+                        <option value="JPY">JPY - Japanese Yen</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Currency Format</label>
+                    <select id="currencyFormat">
+                        <option>$1,234.56</option>
+                        <option>1.234,56 €</option>
+                        <option>£1,234.56</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Decimal Places</label>
+                    <select id="decimalPlaces">
+                        <option>2</option>
+                        <option>0</option>
+                        <option>3</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tax Settings -->
+            <div class="info-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-percent"></i> Tax Settings</h3>
+                </div>
+                <div class="form-group">
+                    <label>Default Tax Rate (%)</label>
+                    <input type="number" value="10" id="taxRate" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label>Tax Calculation Method</label>
+                    <select id="taxMethod">
+                        <option>Inclusive</option>
+                        <option>Exclusive</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tax ID / VAT Number</label>
+                    <input type="text" value="TAX-12345-USD" id="taxId">
+                </div>
+            </div>
+
+            <!-- Notification Settings -->
+            <div class="info-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-bell"></i> Notifications</h3>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" checked> Email invoice reminders
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" checked> Low balance alerts
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox"> Daily summary reports
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" checked> Overdue payment alerts
+                    </label>
+                </div>
+            </div>
+
+            <!-- Data Management -->
+            <div class="info-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-database"></i> Data Management</h3>
+                </div>
+                <button class="btn-secondary" style="width: 100%; margin-bottom: 10px;" onclick="backupData()">
+                    <i class="fas fa-download"></i> Backup Data
+                </button>
+                <button class="btn-secondary" style="width: 100%; margin-bottom: 10px;" onclick="restoreData()">
+                    <i class="fas fa-upload"></i> Restore Data
+                </button>
+                <button class="btn-danger" style="width: 100%;" onclick="resetDemoData()">
+                    <i class="fas fa-redo-alt"></i> Reset to Demo Data
+                </button>
+            </div>
+
+            <!-- Export Options -->
+            <div class="info-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-file-export"></i> Export Options</h3>
+                </div>
+                <button class="btn-secondary" style="width: 100%; margin-bottom: 10px;" onclick="exportAllData('csv')">
+                    <i class="fas fa-file-csv"></i> Export as CSV
+                </button>
+                <button class="btn-secondary" style="width: 100%; margin-bottom: 10px;" onclick="exportAllData('json')">
+                    <i class="fas fa-file-code"></i> Export as JSON
+                </button>
+                <button class="btn-secondary" style="width: 100%;" onclick="exportAllData('pdf')">
+                    <i class="fas fa-file-pdf"></i> Export as PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- Save Settings -->
+        <div style="margin-top: 30px; text-align: right;">
+            <button class="btn-secondary" onclick="resetSettings()">Reset</button>
+            <button class="btn-primary" onclick="saveSettings()">Save Changes</button>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="data.js"></script>
+    <script src="calculations.js"></script>
+    <script src="main.js"></script>
+    <script src="settings.js"></script>
+</body>
+</html>

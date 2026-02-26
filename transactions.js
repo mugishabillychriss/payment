@@ -109,4 +109,154 @@ function clearFilters() {
 }
 
 function updatePagination() {
-    const totalPages
+    const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
+    document.getElementById('paginationInfo').textContent = `Page ${currentPage} of ${totalPages || 1}`;
+    
+    document.getElementById('prevPage').disabled = currentPage === 1;
+    document.getElementById('nextPage').disabled = currentPage === totalPages || totalPages === 0;
+}
+
+function previousPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        loadTransactions();
+    }
+}
+
+function nextPage() {
+    const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
+    if (currentPage < totalPages) {
+        currentPage++;
+        loadTransactions();
+    }
+}
+
+function showAddTransactionModal() {
+    document.getElementById('addTransactionModal').classList.add('active');
+    document.getElementById('transactionDate').valueAsDate = new Date();
+}
+
+function closeTransactionModal() {
+    document.getElementById('addTransactionModal').classList.remove('active');
+    document.getElementById('addTransactionForm').reset();
+}
+
+function addTransaction() {
+    const newTransaction = {
+        id: 'T' + String(transactions.length + 1).padStart(3, '0'),
+        date: document.getElementById('transactionDate').value,
+        company: document.getElementById('transactionCompany').value,
+        description: document.getElementById('transactionDesc').value,
+        amount: parseFloat(document.getElementById('transactionAmount').value) * 
+                (document.getElementById('transactionType').value === 'expense' ? -1 : 1),
+        type: document.getElementById('transactionType').value,
+        method: document.getElementById('transactionMethod').value,
+        status: document.getElementById('transactionStatus').value
+    };
+    
+    if (!newTransaction.company || !newTransaction.description || !newTransaction.amount) {
+        alert('Please fill all required fields');
+        return;
+    }
+    
+    transactions.push(newTransaction);
+    filteredTransactions = [...transactions];
+    loadTransactions();
+    updateTransactionStats();
+    closeTransactionModal();
+    
+    alert('Transaction added successfully!');
+}
+
+function showTransactionDetails(id) {
+    const transaction = transactions.find(t => t.id === id);
+    const modal = document.getElementById('transactionDetailModal');
+    const body = document.getElementById('transactionDetailBody');
+    
+    body.innerHTML = `
+        <div style="text-align: center; margin-bottom: 20px;">
+            <h2 style="font-size: 36px; color: ${transaction.type === 'income' ? 'var(--success)' : 'var(--danger)'}">
+                ${transaction.type === 'income' ? '+' : '-'}${formatCurrency(Math.abs(transaction.amount))}
+            </h2>
+            <span class="status-badge ${transaction.status}" style="font-size: 14px;">
+                ${transaction.status}
+            </span>
+        </div>
+        
+        <div style="display: grid; gap: 15px;">
+            <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--light); border-radius: 8px;">
+                <strong>Transaction ID:</strong>
+                <span>${transaction.id}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--light); border-radius: 8px;">
+                <strong>Date:</strong>
+                <span>${formatDate(transaction.date)}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--light); border-radius: 8px;">
+                <strong>Company:</strong>
+                <span>${transaction.company}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--light); border-radius: 8px;">
+                <strong>Description:</strong>
+                <span>${transaction.description}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--light); border-radius: 8px;">
+                <strong>Payment Method:</strong>
+                <span>${transaction.method}</span>
+            </div>
+        </div>
+    `;
+    
+    modal.classList.add('active');
+    
+    // Store current transaction ID for edit/delete
+    window.currentTransactionId = id;
+}
+
+function closeDetailModal() {
+    document.getElementById('transactionDetailModal').classList.remove('active');
+}
+
+function deleteTransaction(id) {
+    if (confirm('Are you sure you want to delete this transaction?')) {
+        const index = transactions.findIndex(t => t.id === id);
+        if (index !== -1) {
+            transactions.splice(index, 1);
+            filteredTransactions = [...transactions];
+            loadTransactions();
+            updateTransactionStats();
+            closeDetailModal();
+            alert('Transaction deleted successfully!');
+        }
+    }
+}
+
+function exportTransactions() {
+    const csv = [
+        ['ID', 'Date', 'Company', 'Description', 'Amount', 'Type', 'Method', 'Status'],
+        ...filteredTransactions.map(t => [
+            t.id,
+            t.date,
+            t.company,
+            t.description,
+            t.amount,
+            t.type,
+            t.method,
+            t.status
+        ])
+    ].map(row => row.join(',')).join('\n');
+    
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `transactions-${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function printTransactions() {
+    window.print();
+}
